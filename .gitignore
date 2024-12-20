@@ -1,0 +1,12 @@
+### Python ###
+__pycache__
+.python-version
+.pytest_cache
+
+### development ###
+*env
+**.env
+.logs
+
+### vscode ### 
+.vscode
