@@ -5,7 +5,6 @@ from sqlalchemy import update, delete
 from src.models.models import Subscription
 
 
-# Create a new subscription
 async def create_subscription(
     db: AsyncSession, user_id: int, name: str, price: float, duration_days: int
 ):
@@ -19,7 +18,6 @@ async def create_subscription(
     return subscription
 
 
-# Get a subscription by ID
 async def get_subscription(db: AsyncSession, subscription_id: int):
     result = await db.execute(
         select(Subscription).filter(Subscription.id == subscription_id)
@@ -36,19 +34,18 @@ async def get_subscriptions_by_user(db: AsyncSession, user_id: int):
 
 
 # Update the status of a subscription
-async def update_subscription_status(db: AsyncSession, subscription_id: int, is_active: bool):
+async def update_subscription_status(
+    db: AsyncSession, subscription_id: int, is_active: bool
+):
     query = (
         update(Subscription)
         .where(Subscription.id == subscription_id)
-        .values(is_active=is_active, updated_at=datetime.now())
+        .values(is_active=is_active, expires_at=datetime.now())
     )
     await db.execute(query)
     await db.commit()
 
 
-# Delete a subscription
 async def delete_subscription(db: AsyncSession, subscription_id: int):
-    await db.execute(
-        delete(Subscription).where(Subscription.id == subscription_id)
-    )
+    await db.execute(delete(Subscription).where(Subscription.id == subscription_id))
     await db.commit()

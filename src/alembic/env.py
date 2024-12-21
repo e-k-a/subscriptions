@@ -8,11 +8,9 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from src.core.settings import settings
 from src.db.postgres import Base
 from src.models.models import User
-# from src.models.models import Account
 from src.models.models import Subscription
 from src.models.models import Payment
 from src.models.models import PaymentMethod
-
 
 
 # this is the Alembic Config object, which provides

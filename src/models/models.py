@@ -8,20 +8,16 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
-    subscriptions = relationship("Subscription", back_populates="user", lazy='selectin')
     payment_methods = relationship("PaymentMethod", back_populates="user", lazy='selectin')
-    # account = relationship("Account", uselist=False, back_populates="user", lazy='selectin')
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
     name = Column(String)
     price = Column(Float)
     is_active = Column(Boolean, default=True)
     expires_at = Column(DateTime)
     auto_renew = Column(Boolean, default=False)
-    user = relationship("User", back_populates="subscriptions")
 
 class Payment(Base):
     __tablename__ = "payments"
@@ -36,11 +32,9 @@ class PaymentMethod(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     card_number = Column(String, unique=True)
-    card_holder = Column(String)
     expiry_date = Column(String)
     balance = Column(Float, default=0.0)
-
-    cvv = Column(String)
+    cvv = Column(Integer)
     is_default = Column(Boolean, default=False)
     user = relationship("User", back_populates="payment_methods")
 
